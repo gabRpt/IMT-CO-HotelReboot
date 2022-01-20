@@ -24,6 +24,12 @@ public class Console {
 		System.out.println("Quel sera le chemin d'accès du modele ?");
 	}
 	
+	public static void afficherChoixClassiqueOuPresidentielle() {
+		System.out.println("Voulez vous créer :");
+		System.out.println("1 - Une chambre classique");
+		System.out.println("2 - Une chambre presidentielle");
+	}
+	
 	public static void afficherChoixPrincicpaux(Hotel hotel) {
 		System.out.println("\nBienvenue dans l'hotel : " + hotel.getNom());
 		

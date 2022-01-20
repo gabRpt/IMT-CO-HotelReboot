@@ -2,8 +2,10 @@ import java.lang.reflect.Field;
 import java.util.HashMap;
 import java.util.Map;
 
+import hotelManagment.Classique;
 import hotelManagment.Hotel;
 import hotelManagment.HotelManagmentFactory;
+import hotelManagment.Presidentielle;
 import hotelManagment.Reservation;
 import hotelManagment.impl.ReservationImpl;
 
@@ -168,7 +170,7 @@ public class ManageHotel {
 	public void chambre(char userInputSecondChar) {
 		switch (userInputSecondChar) {
 			case '1':
-				
+				creationChambre();
 				break;
 				
 			case '2':
@@ -190,6 +192,59 @@ public class ManageHotel {
 			default:
 				break;
 		}
+	}
+	
+	public void creationChambre() {
+
+		System.out.println("Quel est le numéro de la chambre ?");
+		int numero = Integer.parseInt(Console.recupererUneEntree());
+		
+		System.out.println("Quel est le nombre de lits ?");
+		int nbrLits = Integer.parseInt(Console.recupererUneEntree());
+		
+		System.out.println("Quel est le prix ?");
+		Float prix = Float.parseFloat(Console.recupererUneEntree());
+		
+		Console.afficherChoixClassiqueOuPresidentielle();
+		String entree = Console.recupererUneEntree();
+		if(entree.equals("1")) {
+			
+			Classique chambre = hotelFactory.createClassique();
+			chambre.setNumero(numero);
+			chambre.setNbLits(nbrLits);
+			chambre.setPrix(prix);
+			this.hotel.getChambre().add(chambre);
+			
+		}else if (entree.equals("2")) {
+			
+			Presidentielle chambre = hotelFactory.createPresidentielle();
+			chambre.setNumero(numero);
+			chambre.setNbLits(nbrLits);
+			chambre.setPrix(prix);
+			
+			System.out.println("Quel est le nombre de television ?");
+			int nbTv = Integer.parseInt(Console.recupererUneEntree());
+			
+			System.out.println("Quel est le nombre de salle de bain ?");
+			int nbSdb = Integer.parseInt(Console.recupererUneEntree());
+			
+			System.out.println("Ya-t'il un balcon ?");
+			boolean balcon = Boolean.parseBoolean(Console.recupererUneEntree());
+			
+			chambre.setNbTV(nbTv);
+			chambre.setNbSdB(nbSdb);
+			chambre.setBalcon(balcon);
+			this.hotel.getChambre().add(chambre);
+			
+		}else {
+			throw new IllegalArgumentException("Erreur dans le choix !");
+		}
+		
+		
+		
+		System.out.println("Creation de chambre effectué !");
+		
+		
 	}
 	
 	public void personnel(char userInputSecondChar) {
