@@ -1,12 +1,19 @@
 import java.lang.reflect.Field;
+import java.util.Arrays;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+import java.util.Optional;
+import java.util.stream.Stream;
 
+import hotelManagment.Chambre;
 import hotelManagment.Classique;
 import hotelManagment.Hotel;
 import hotelManagment.HotelManagmentFactory;
 import hotelManagment.Presidentielle;
 import hotelManagment.Reservation;
+import hotelManagment.impl.ChambreImpl;
+import hotelManagment.impl.PresidentielleImpl;
 import hotelManagment.impl.ReservationImpl;
 
 public class ManageHotel {
@@ -174,15 +181,15 @@ public class ManageHotel {
 				break;
 				
 			case '2':
-				
+				modificationChambre();
 				break;
 				
 			case '3':
-				
+				supprimerChambre();
 				break;
 				
 			case '4':
-				
+				afficherChambre();
 				break;
 				
 			case '5':
@@ -194,6 +201,96 @@ public class ManageHotel {
 		}
 	}
 	
+	private void afficherChambre() {
+		System.out.println("Entrez le numéro de la chambre a afficher");
+		int num = Integer.parseInt(Console.recupererUneEntree());
+		
+		for (Chambre chambre : this.hotel.getChambre()) {
+			if (chambre.getNumero() == num) {
+				System.out.println(
+					"NumChmabre: "+chambre.getNumero()+
+					"\nnombre de lits: "+chambre.getNbLits()+
+					"\nprix: "+chambre.getPrix()
+				);
+				if(chambre instanceof Presidentielle) {
+					Presidentielle chambrep = (Presidentielle) chambre;
+					System.out.println(
+							"Salle de bain: "+chambrep.getNbSdB()+
+							"\nnombre de TV: "+chambrep.getNbTV()
+					);
+				}
+				break;
+			}
+		}
+	}
+
+	private void supprimerChambre() {
+		System.out.println("Quel est le numéro de la chambre a supprimer ?");
+		int numero = Integer.parseInt(Console.recupererUneEntree());
+		
+		boolean deleted = false;
+		
+		for (Chambre chambre : this.hotel.getChambre()) {
+			if (chambre.getNumero() == numero) {
+				this.hotel.getChambre().remove(chambre);
+				deleted = true;
+				break;
+			}
+		}
+		
+		if (deleted) {					
+			System.out.println("Edité avec succès");
+		} else {
+			System.out.println("Problème lors de l'édition");
+		}
+		
+	}
+
+	private void modificationChambre() {
+		System.out.println("Quel est le numéro de la chambre a modifier ?");
+		int numero = Integer.parseInt(Console.recupererUneEntree());
+		
+		System.out.println("Est-ce une chambre présidentielle (y/n) ?");
+		String estPres = Console.recupererUneEntree();
+		
+		Optional<Chambre> chambreAmodifier = this.hotel.getChambre().stream().filter( chambre -> chambre.getNumero() == numero).findFirst();
+		Map<String, String> myMap; 
+		
+		Field[] fieldChambre = ChambreImpl.class.getDeclaredFields();
+		Field[] fieldPresidentielle = PresidentielleImpl.class.getDeclaredFields();
+		
+		Field[] chambreXPresidentielle = Stream.concat(Arrays.stream(fieldChambre), Arrays.stream(fieldPresidentielle)).toArray(Field[]::new);
+		
+		if(!chambreAmodifier.isEmpty()) {
+			
+			if(estPres.equals("y")) {
+				Presidentielle pre = (Presidentielle) chambreAmodifier.get();
+				myMap = this.getFieldsValues(chambreXPresidentielle);
+				pre.setNumero(Integer.parseInt(myMap.get("numero")));
+				pre.setNbLits(Integer.parseInt(myMap.get("nbLits")));
+				pre.setPrix(Float.parseFloat(myMap.get("prix")));
+				pre.setBalcon(Boolean.parseBoolean(myMap.get("balcon")));
+				pre.setNbTV(Integer.parseInt(myMap.get("nbTV")));
+				pre.setNbSdB(Integer.parseInt(myMap.get("nbSdB")));
+			}else {
+				Classique classi = (Classique) chambreAmodifier.get();
+				myMap = this.getFieldsValues(fieldChambre);
+				for(int i =0; i< fieldChambre.length; i++) {
+					System.out.println(fieldChambre[i]);
+				}
+				classi.setNumero(Integer.parseInt(myMap.get("numero")));
+				classi.setNbLits(Integer.parseInt(myMap.get("nbLits")));
+				classi.setPrix(Float.parseFloat(myMap.get("prix")));
+			}
+				
+			
+		}else {
+			throw new IllegalArgumentException("Erreur dans le choix !");
+		}
+		
+		System.out.println("Modification de chambre effectué !");
+	}
+
 	public void creationChambre() {
 
 		System.out.println("Quel est le numéro de la chambre ?");
