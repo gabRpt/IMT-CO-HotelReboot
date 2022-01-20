@@ -3,10 +3,12 @@ import java.util.HashMap;
 import java.util.Map;
 
 import hotelManagment.Classique;
+import hotelManagment.Client;
 import hotelManagment.Hotel;
 import hotelManagment.HotelManagmentFactory;
 import hotelManagment.Presidentielle;
 import hotelManagment.Reservation;
+import hotelManagment.impl.ClientImpl;
 import hotelManagment.impl.ReservationImpl;
 
 public class ManageHotel {
@@ -275,24 +277,88 @@ public class ManageHotel {
 	}
 	
 	public void client(char userInputSecondChar) {
+		Field[] classFields = ClientImpl.class.getDeclaredFields();
+		Map<String, String> myMap;
+		
 		switch (userInputSecondChar) {
 			case '1':
+				//TODO Gérer les exceptions
+				myMap = this.getFieldsValues(classFields);
+				
+				Client newClient = this.hotelFactory.createClient();
+				newClient.setId(Integer.parseInt(myMap.get("id")));
+				newClient.setNom(myMap.get("nom"));
+				newClient.setPrenom(myMap.get("prenom"));
+				this.hotel.getClient().add(newClient);
 				
 				break;
 				
-			case '2':
+			case '2':{
+				System.out.println("Entrez l'identifiant client");
+				int idClient = Integer.parseInt(Console.recupererUneEntree());
+				
+				boolean edited = false;
+				
+				for (Client client : this.hotel.getClient()) {
+					if (client.getId() == idClient) {
+						myMap = this.getFieldsValues(classFields);						
+						client.setId(Integer.parseInt(myMap.get("id")));
+						client.setNom(myMap.get("nom"));
+						client.setPrenom(myMap.get("prenom"));
+						
+						edited = true;
+						break;
+					}
+				}
+				
+				if (edited) {					
+					System.out.println("Edité avec succès");
+				} else {
+					System.out.println("Problème lors de l'édition");
+				}
 				
 				break;
+			}
 				
-			case '3':
+			case '3':{
+				System.out.println("Entrez l'identifiant client");
+				int idClient = Integer.parseInt(Console.recupererUneEntree());
 				
+				boolean deleted = false;
+				
+				for (Client client : this.hotel.getClient()) {
+					if (client.getId() == idClient) {
+						this.hotel.getClient().remove(client);
+						deleted = true;
+						break;
+					}
+				}
+				
+				if (deleted) {					
+					System.out.println("Edité avec succès");
+				} else {
+					System.out.println("Problème lors de l'édition");
+				}
 				break;
+			}
 				
 			case '4':
-				
+				System.out.println("Entrez l'identifiant client");
+				int idClient = Integer.parseInt(Console.recupererUneEntree());
+								
+				for (Client client : this.hotel.getClient()) {
+					if (client.getId() == idClient) {
+						System.out.println(
+							"id: "+client.getId()+
+							"\nnom: "+client.getNom()+
+							"\nprenom"+client.getPrenom()
+						);
+						break;
+					}
+				}
 				break;
 				
-			case '5':
+			case '5':				
 				this.hotel.getClient().stream().forEach(System.out::println);
 				break;
 	
