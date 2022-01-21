@@ -1,8 +1,14 @@
 # IMT-CO-HotelReboot
-Programme en ligne de commandes. Il s'éxecute avec Java JDK 16.
-Il permet de faire la gestion d'hotels, on peut Créer, Lire, Mettre à jour et supprimer des Hotels, Clients, Personnels, Chambres et Réservations.
+Programme en ligne de commandes. Il s'éxecute avec Java JDK 16 sur Eclipse Modeling Tools avec ecore et xmi.
+Il permet de faire la gestion d'hotels, on peut Créer, Lire, Mettre à jour et Supprimer des Hotels, Clients, Personnels, Chambres et Réservations.
 Le programme ne prend pas en compte les cas d'erreurs, il se base sur le principe que l'utilisateur rentre les bonnes valeurs.
 Les données rentrées sont enregistrées au format .xmi, on peut ensuite lire le fichier xmi ultérieurement pour modifier les données.
+
+![Alt text](./hotel-ecore-model.png "UML Representation")
+
+Chaque classe est dépendante de la classe Hotel. Le Personnel peut être affecté à plusieurs chambres, une Chambre peut être affectée à plusieurs Personnels.
+La classe Réservation contient l'ID d'un Personnel existant et le numéro d'une chambre existante. Une Chambre peut être Classique ou Présidentielle.
+Un Hotel a au moins deux chambres.
 
 ```
 Lorsque vous lancez le programme, des choix seront affichés avec un nombre les préfixant. Entrez le nombre de votre choix et faites "entrer" pour passer à l'étape suivante.
