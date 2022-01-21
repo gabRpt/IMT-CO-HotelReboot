@@ -1,5 +1,0 @@
-<?xml version="1.0" encoding="ASCII"?>
-<hotelManagment:Hotel xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:hotelManagment="http://www.example.org/hotelManagment" nom="Ibiza">
-  <client id="1" nom="aaa" prenom="bbb"/>
-  <client id="2" nom="ccc" prenom="ddd"/>
-</hotelManagment:Hotel>
