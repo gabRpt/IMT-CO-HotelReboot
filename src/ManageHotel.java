@@ -15,8 +15,10 @@ import hotelManagment.HotelManagmentFactory;
 import hotelManagment.Personnel;
 import hotelManagment.Presidentielle;
 import hotelManagment.Reservation;
+import hotelManagment.impl.ChambreImpl;
 import hotelManagment.impl.ClientImpl;
 import hotelManagment.impl.PersonnelImpl;
+import hotelManagment.impl.PresidentielleImpl;
 import hotelManagment.impl.ReservationImpl;
 
 public class ManageHotel {
