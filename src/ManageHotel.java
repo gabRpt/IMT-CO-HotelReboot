@@ -6,14 +6,17 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.stream.Stream;
 
+
 import hotelManagment.Chambre;
 import hotelManagment.Classique;
+import hotelManagment.Client;
 import hotelManagment.Hotel;
 import hotelManagment.HotelManagmentFactory;
+import hotelManagment.Personnel;
 import hotelManagment.Presidentielle;
 import hotelManagment.Reservation;
-import hotelManagment.impl.ChambreImpl;
-import hotelManagment.impl.PresidentielleImpl;
+import hotelManagment.impl.ClientImpl;
+import hotelManagment.impl.PersonnelImpl;
 import hotelManagment.impl.ReservationImpl;
 
 public class ManageHotel {
@@ -26,8 +29,8 @@ public class ManageHotel {
 		this.hotelFactory = hotelFactory;
 	}
 	
-	//Pour chaque attribut, demande la valeur à l'utilisateur
-	//Retourne un map "nomAttribut":"valeur entrée par l'user"
+	//Pour chaque attribut, demande la valeur ï¿½ l'utilisateur
+	//Retourne un map "nomAttribut":"valeur entrï¿½e par l'user"
 	private Map<String, String> getFieldsValues(Field[] classFields) {
 		Map<String, String> myMap = new HashMap<String, String>();
 		String fieldValue = "";
@@ -80,7 +83,7 @@ public class ManageHotel {
 		
 		switch (userInputSecondChar) {
 			case '1':
-				//TODO Gérer les exceptions
+				//TODO Gï¿½rer les exceptions
 				myMap = this.getFieldsValues(classFields);
 				
 				Reservation newReservation = this.hotelFactory.createReservation();
@@ -95,7 +98,7 @@ public class ManageHotel {
 				System.out.println("Entrez l'identifiant client");
 				int idClient = Integer.parseInt(Console.recupererUneEntree());
 				
-				System.out.println("Entrez le numéro de chambre");
+				System.out.println("Entrez le numï¿½ro de chambre");
 				int numChambre = Integer.parseInt(Console.recupererUneEntree());
 				
 				boolean edited = false;
@@ -113,9 +116,9 @@ public class ManageHotel {
 				}
 				
 				if (edited) {					
-					System.out.println("Edité avec succès");
+					System.out.println("Editï¿½ avec succï¿½s");
 				} else {
-					System.out.println("Problème lors de l'édition");
+					System.out.println("Problï¿½me lors de l'ï¿½dition");
 				}
 				
 				break;
@@ -125,7 +128,7 @@ public class ManageHotel {
 				System.out.println("Entrez l'identifiant client");
 				int idClient = Integer.parseInt(Console.recupererUneEntree());
 				
-				System.out.println("Entrez le numéro de chambre");
+				System.out.println("Entrez le numï¿½ro de chambre");
 				int numChambre = Integer.parseInt(Console.recupererUneEntree());
 				
 				boolean deleted = false;
@@ -139,9 +142,9 @@ public class ManageHotel {
 				}
 				
 				if (deleted) {					
-					System.out.println("Edité avec succès");
+					System.out.println("Editï¿½ avec succï¿½s");
 				} else {
-					System.out.println("Problème lors de l'édition");
+					System.out.println("Problï¿½me lors de l'ï¿½dition");
 				}
 				break;
 			}
@@ -150,7 +153,7 @@ public class ManageHotel {
 				System.out.println("Entrez l'identifiant client");
 				int idClient = Integer.parseInt(Console.recupererUneEntree());
 				
-				System.out.println("Entrez le numéro de chambre");
+				System.out.println("Entrez le numï¿½ro de chambre");
 				int numChambre = Integer.parseInt(Console.recupererUneEntree());
 				
 				for (Reservation reservation : this.hotel.getReserveration()) {
@@ -202,7 +205,7 @@ public class ManageHotel {
 	}
 	
 	private void afficherChambre() {
-		System.out.println("Entrez le numéro de la chambre a afficher");
+		System.out.println("Entrez le numï¿½ro de la chambre a afficher");
 		int num = Integer.parseInt(Console.recupererUneEntree());
 		
 		for (Chambre chambre : this.hotel.getChambre()) {
@@ -225,7 +228,7 @@ public class ManageHotel {
 	}
 
 	private void supprimerChambre() {
-		System.out.println("Quel est le numéro de la chambre a supprimer ?");
+		System.out.println("Quel est le numï¿½ro de la chambre a supprimer ?");
 		int numero = Integer.parseInt(Console.recupererUneEntree());
 		
 		boolean deleted = false;
@@ -239,18 +242,18 @@ public class ManageHotel {
 		}
 		
 		if (deleted) {					
-			System.out.println("Edité avec succès");
+			System.out.println("Editï¿½ avec succï¿½s");
 		} else {
-			System.out.println("Problème lors de l'édition");
+			System.out.println("Problï¿½me lors de l'ï¿½dition");
 		}
 		
 	}
 
 	private void modificationChambre() {
-		System.out.println("Quel est le numéro de la chambre a modifier ?");
+		System.out.println("Quel est le numï¿½ro de la chambre a modifier ?");
 		int numero = Integer.parseInt(Console.recupererUneEntree());
 		
-		System.out.println("Est-ce une chambre présidentielle (y/n) ?");
+		System.out.println("Est-ce une chambre prï¿½sidentielle (y/n) ?");
 		String estPres = Console.recupererUneEntree();
 		
 		Optional<Chambre> chambreAmodifier = this.hotel.getChambre().stream().filter( chambre -> chambre.getNumero() == numero).findFirst();
@@ -288,12 +291,12 @@ public class ManageHotel {
 			throw new IllegalArgumentException("Erreur dans le choix !");
 		}
 		
-		System.out.println("Modification de chambre effectué !");
+		System.out.println("Modification de chambre effectuï¿½ !");
 	}
 
 	public void creationChambre() {
 
-		System.out.println("Quel est le numéro de la chambre ?");
+		System.out.println("Quel est le numï¿½ro de la chambre ?");
 		int numero = Integer.parseInt(Console.recupererUneEntree());
 		
 		System.out.println("Quel est le nombre de lits ?");
@@ -339,31 +342,149 @@ public class ManageHotel {
 		
 		
 		
-		System.out.println("Creation de chambre effectué !");
+		System.out.println("Creation de chambre effectuï¿½ !");
 		
 		
 	}
 	
 	public void personnel(char userInputSecondChar) {
+		Field[] classFields = PersonnelImpl.class.getDeclaredFields();
+		Map<String, String> myMap;
+		
 		switch (userInputSecondChar) {
-			case '1':
+			case '1':{
+				//TODO Gï¿½rer les exceptions
+				myMap = this.getFieldsValues(classFields);
+				System.out.println("Entrez les numï¿½ro de chambre et terminez l'ajout par 0");
+				String userInputString = Console.recupererUneEntree();
+				Personnel newPersonnel = this.hotelFactory.createPersonnel();
+				
+				while(!userInputString.equals("0")) {
+					int numero = Integer.parseInt(userInputString);
+					for (Chambre chambre : this.hotel.getChambre()) {
+						if (chambre.getNumero() == numero) {
+							newPersonnel.getChambre().add(chambre);
+							break;
+						}
+					}
+					
+					userInputString = Console.recupererUneEntree();
+				}
+				
+				newPersonnel.setNom(myMap.get("nom"));
+				newPersonnel.setPrenom(myMap.get("prenom"));
+				
+				this.hotel.getPersonnel().add(newPersonnel);				
+				break;
+			}
+				
+			case '2':{
+				//TODO Gï¿½rer les exceptions				
+				System.out.println("Entrez le nom du personnel");
+				String nom = Console.recupererUneEntree();
+				
+				System.out.println("Entrez le prenom du personnel");
+				String prenom = Console.recupererUneEntree();
+				
+				boolean edited = false;
+				
+				for (Personnel personnel : this.hotel.getPersonnel()) {
+					if (personnel.getNom().equals(nom) && personnel.getPrenom().equals(prenom)) {
+						myMap = this.getFieldsValues(classFields);						
+						personnel.setNom(myMap.get("nom"));
+						personnel.setPrenom(myMap.get("prenom"));
+						
+						System.out.println("Entrez les numï¿½ro de chambre et terminez l'ajout par 0");
+						String userInputString = Console.recupererUneEntree();
+						while(!userInputString.equals("0")) {
+							int numero = Integer.parseInt(userInputString);
+							for (Chambre chambre : this.hotel.getChambre()) {
+								if (chambre.getNumero() == numero) {
+									personnel.getChambre().add(chambre);
+									break;
+								}
+							}
+							
+							userInputString = Console.recupererUneEntree();
+						}
+						
+						edited = true;
+						break;
+					}
+				}
+				
+				if (edited) {					
+					System.out.println("Editï¿½ avec succï¿½s");
+				} else {
+					System.out.println("Problï¿½me lors de l'ï¿½dition");
+				}
 				
 				break;
+			}
 				
-			case '2':
+			case '3':{
+				System.out.println("Entrez le nom du personnel");
+				String nom = Console.recupererUneEntree();
 				
+				System.out.println("Entrez le prenom du personnel");
+				String prenom = Console.recupererUneEntree();
+				
+				boolean deleted = false;
+				
+				for (Personnel personnel : this.hotel.getPersonnel()) {
+					if (personnel.getNom().equals(nom) && personnel.getPrenom().equals(prenom)) {
+						for (Chambre chambre : personnel.getChambre()) {
+							chambre.getPersonnel().remove(personnel);
+						}
+						this.hotel.getPersonnel().remove(personnel);
+						deleted = true;
+						break;
+					}
+				}
+				
+				if (deleted) {					
+					System.out.println("Editï¿½ avec succï¿½s");
+				} else {
+					System.out.println("Problï¿½me lors de l'ï¿½dition");
+				}
 				break;
-				
-			case '3':
-				
-				break;
+			}
 				
 			case '4':
+				System.out.println("Entrez le nom du personnel");
+				String nom = Console.recupererUneEntree();
 				
+				System.out.println("Entrez le prenom du personnel");
+				String prenom = Console.recupererUneEntree();
+								
+				for (Personnel personnel : this.hotel.getPersonnel()) {
+					if (personnel.getNom().equals(nom) && personnel.getPrenom().equals(prenom)) {
+						System.out.println(
+							"nom: "+personnel.getNom()+
+							"\nprenom: "+personnel.getPrenom()
+						);
+						
+						String chambreString = "chambres: ";
+						for (Chambre chambre : personnel.getChambre()) {
+							chambreString += chambre.getNumero() + " ";
+						}
+						System.out.println(chambreString + "\n");
+						break;
+					}
+				}
 				break;
 				
 			case '5':
-				this.hotel.getPersonnel().stream().forEach(System.out::println);
+				for (Personnel personnel : this.hotel.getPersonnel()) {
+					System.out.println("nom: "+ personnel.getNom());
+					System.out.println("prenom: "+ personnel.getPrenom());
+					
+					String chambreString = "chambres: ";
+					for (Chambre chambre : personnel.getChambre()) {
+						chambreString += chambre.getNumero() + " ";
+					}
+					System.out.println(chambreString + "\n");
+				}
 				break;
 	
 			default:
@@ -372,24 +493,88 @@ public class ManageHotel {
 	}
 	
 	public void client(char userInputSecondChar) {
+		Field[] classFields = ClientImpl.class.getDeclaredFields();
+		Map<String, String> myMap;
+		
 		switch (userInputSecondChar) {
 			case '1':
+				//TODO Gï¿½rer les exceptions
+				myMap = this.getFieldsValues(classFields);
+				
+				Client newClient = this.hotelFactory.createClient();
+				newClient.setId(Integer.parseInt(myMap.get("id")));
+				newClient.setNom(myMap.get("nom"));
+				newClient.setPrenom(myMap.get("prenom"));
+				this.hotel.getClient().add(newClient);
 				
 				break;
 				
-			case '2':
+			case '2':{
+				System.out.println("Entrez l'identifiant client");
+				int idClient = Integer.parseInt(Console.recupererUneEntree());
+				
+				boolean edited = false;
+				
+				for (Client client : this.hotel.getClient()) {
+					if (client.getId() == idClient) {
+						myMap = this.getFieldsValues(classFields);						
+						client.setId(Integer.parseInt(myMap.get("id")));
+						client.setNom(myMap.get("nom"));
+						client.setPrenom(myMap.get("prenom"));
+						
+						edited = true;
+						break;
+					}
+				}
+				
+				if (edited) {					
+					System.out.println("Editï¿½ avec succï¿½s");
+				} else {
+					System.out.println("Problï¿½me lors de l'ï¿½dition");
+				}
 				
 				break;
+			}
 				
-			case '3':
+			case '3':{
+				System.out.println("Entrez l'identifiant client");
+				int idClient = Integer.parseInt(Console.recupererUneEntree());
 				
+				boolean deleted = false;
+				
+				for (Client client : this.hotel.getClient()) {
+					if (client.getId() == idClient) {
+						this.hotel.getClient().remove(client);
+						deleted = true;
+						break;
+					}
+				}
+				
+				if (deleted) {					
+					System.out.println("Editï¿½ avec succï¿½s");
+				} else {
+					System.out.println("Problï¿½me lors de l'ï¿½dition");
+				}
 				break;
+			}
 				
 			case '4':
-				
+				System.out.println("Entrez l'identifiant client");
+				int idClient = Integer.parseInt(Console.recupererUneEntree());
+								
+				for (Client client : this.hotel.getClient()) {
+					if (client.getId() == idClient) {
+						System.out.println(
+							"id: "+client.getId()+
+							"\nnom: "+client.getNom()+
+							"\nprenom"+client.getPrenom()
+						);
+						break;
+					}
+				}
 				break;
 				
-			case '5':
+			case '5':				
 				this.hotel.getClient().stream().forEach(System.out::println);
 				break;
 	

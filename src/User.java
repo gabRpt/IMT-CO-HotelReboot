@@ -47,8 +47,13 @@ public class User {
 		
 		Console.afficherChoixNomHotel();
 		this.myHotel.setNom(Console.recupererUneEntree());
+		System.out.println("Adresse: ");
+		this.myHotel.setAdresse(Console.recupererUneEntree());
+		System.out.println("Catégorie: ");
+		this.myHotel.setCategorie(Console.recupererUneEntree());
+		System.out.println("Chiffre d'affaire: ");
+		this.myHotel.setChiffreAffaire(Integer.parseInt(Console.recupererUneEntree()));
 		
-		this.sauvegarderHotel();		
 		this.managerHotel();
 	}
 
