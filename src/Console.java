@@ -4,6 +4,21 @@ import hotelManagment.Hotel;
 
 public class Console {
 	
+	public static final String EDIT_SUCCESS = "Édité avec success";
+	public static final String EDIT_FAIL = "Problème rencontré lors de l'édition";
+	public static final String ASK_USER_FIELD_VALUE = "Entrez la valeur pour le champ suivant: ";
+	public static final String ASK_CLIENT_ID = "Entrez l'identifiant client";
+	public static final String ASK_NUMCHAMBRE = "Entrez le numéro de chambre";
+	public static final String ASK_CHAMBRE_PRESIDENTIELLE = "Est-ce une chambre présidentielle (y/n) ?";
+	public static final String ASK_NB_LITS = "Entrez le nombre de lits";
+	public static final String ASK_PRIX_CHAMBRE = "Entrez le prix par nuit";
+	public static final String ASK_NB_TV = "Entrez le nombre de television";
+	public static final String ASK_NB_SDB = "Entrez le nombre de salle de bain";
+	public static final String ASK_BALCON = "Ya-t'il un balcon (true/false) ?";
+	public static final String ASK_NUMCHAMBRES_PERSONNEL = "Entrez les numéros de chambres et terminez l'ajout par 0";
+	public static final String ASK_NOM_PERSONNEL = "Entrez le nom du personnel";
+	public static final String ASK_PRENOM_PERSONNEL = "Entrez le prenom du personnel";
+	
 	public static void afficherChoixCreationOuImportation() {
 		System.out.println("Bienvenue dans le système de gestion d'hotel");
 		System.out.println("1 - charger un hotel :");
