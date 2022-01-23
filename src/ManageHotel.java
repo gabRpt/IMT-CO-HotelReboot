@@ -56,10 +56,12 @@ public class ManageHotel {
 		Map<String, String> myMap = new HashMap<String, String>();
 		String fieldValue = "";
 		String currentAttributeName = "";
+		String currentAttributeType = "";
 				
 		for (int i = 1; i < classFields.length; i+=2) {
 			currentAttributeName = classFields[i].getName();
-			System.out.println(Console.ASK_USER_FIELD_VALUE + currentAttributeName);
+			currentAttributeType = classFields[i].getGenericType().getTypeName();
+			System.out.println(Console.ASK_USER_FIELD_VALUE + currentAttributeName + " (type: "+ currentAttributeType +")");
 			fieldValue = Console.recupererUneEntree();
 			myMap.put(currentAttributeName, fieldValue);
 		}

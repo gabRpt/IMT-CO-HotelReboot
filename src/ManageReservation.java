@@ -1,5 +1,6 @@
 import java.lang.reflect.Field;
 import java.util.Map;
+import java.util.Optional;
 
 import hotelManagment.Reservation;
 import hotelManagment.impl.ReservationImpl;
@@ -25,24 +26,15 @@ public class ManageReservation {
 	}
 	
 	public void updateReservation() {
-		System.out.println(Console.ASK_CLIENT_ID);
-		int idClient = Integer.parseInt(Console.recupererUneEntree());
-		
-		System.out.println(Console.ASK_NUMCHAMBRE);
-		int numChambre = Integer.parseInt(Console.recupererUneEntree());
-		
 		boolean edited = false;
-		
-		for (Reservation reservation : this.manageHotel.hotel.getReserveration()) {
-			if (reservation.getIdClient() == idClient && reservation.getNumChambre() == numChambre) {
-				myMap = this.manageHotel.getFieldsValues(classFields);						
-				reservation.setIdClient(Integer.parseInt(myMap.get("idClient")));
-				reservation.setNumChambre(Integer.parseInt(myMap.get("numChambre")));
-				reservation.setDate(null); //TODO Date
-				
-				edited = true;
-				break;
-			}
+		Optional<Reservation> reservation = this.getReservation();
+		if(reservation.isPresent()) {
+			myMap = this.manageHotel.getFieldsValues(classFields);						
+			reservation.get().setIdClient(Integer.parseInt(myMap.get("idClient")));
+			reservation.get().setNumChambre(Integer.parseInt(myMap.get("numChambre")));
+			reservation.get().setDate(null); //TODO Date
+			
+			edited = true;
 		}
 		
 		if (edited) {					
@@ -53,20 +45,11 @@ public class ManageReservation {
 	}
 	
 	public void deleteReservation() {
-		System.out.println(Console.ASK_CLIENT_ID);
-		int idClient = Integer.parseInt(Console.recupererUneEntree());
-		
-		System.out.println(Console.ASK_NUMCHAMBRE);
-		int numChambre = Integer.parseInt(Console.recupererUneEntree());
-		
 		boolean deleted = false;
-						
-		for (Reservation reservation : this.manageHotel.hotel.getReserveration()) {
-			if (reservation.getIdClient() == idClient && reservation.getNumChambre() == numChambre) {
-				this.manageHotel.hotel.getReserveration().remove(reservation);
-				deleted = true;
-				break;
-			}
+		Optional<Reservation> reservation = this.getReservation();
+		if(reservation.isPresent()) {
+			this.manageHotel.hotel.getReserveration().remove(reservation.get());
+			deleted = true;
 		}
 		
 		if (deleted) {					
@@ -77,6 +60,17 @@ public class ManageReservation {
 	}
 	
 	public void showReservation() {
+		Optional<Reservation> reservation = this.getReservation();
+		if(reservation.isPresent()) {
+			System.out.println(reservation.get().toString());			
+		}
+	}
+	
+	public void showAllReservation() {
+		this.manageHotel.hotel.getReserveration().stream().forEach(System.out::println);
+	}
+	
+	private Optional<Reservation> getReservation() {
 		System.out.println(Console.ASK_CLIENT_ID);
 		int idClient = Integer.parseInt(Console.recupererUneEntree());
 		
@@ -85,13 +79,9 @@ public class ManageReservation {
 		
 		for (Reservation reservation : this.manageHotel.hotel.getReserveration()) {
 			if (reservation.getIdClient() == idClient && reservation.getNumChambre() == numChambre) {
-				System.out.println(reservation.toString());
-				break;
+				return Optional.of(reservation);
 			}
 		}
-	}
-	
-	public void showAllReservation() {
-		this.manageHotel.hotel.getReserveration().stream().forEach(System.out::println);
+		return Optional.empty();
 	}
 }
