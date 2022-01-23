@@ -1,7 +1,6 @@
 import java.lang.reflect.Field;
 import java.util.Arrays;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.stream.Stream;
@@ -262,12 +261,12 @@ public class ManageHotel {
 		Map<String, String> myMap; 
 		
 		Field[] fieldChambre = ChambreImpl.class.getDeclaredFields();
+		fieldChambre = Arrays.copyOf(fieldChambre, fieldChambre.length-1); //On enleve le dernier elem
 		Field[] fieldPresidentielle = PresidentielleImpl.class.getDeclaredFields();
 		
 		Field[] chambreXPresidentielle = Stream.concat(Arrays.stream(fieldChambre), Arrays.stream(fieldPresidentielle)).toArray(Field[]::new);
 		
 		if(!chambreAmodifier.isEmpty()) {
-			
 			if(estPres.equals("y")) {
 				Presidentielle pre = (Presidentielle) chambreAmodifier.get();
 				myMap = this.getFieldsValues(chambreXPresidentielle);
@@ -280,16 +279,11 @@ public class ManageHotel {
 			}else {
 				Classique classi = (Classique) chambreAmodifier.get();
 				myMap = this.getFieldsValues(fieldChambre);
-				for(int i =0; i< fieldChambre.length; i++) {
-					System.out.println(fieldChambre[i]);
-				}
 				classi.setNumero(Integer.parseInt(myMap.get("numero")));
 				classi.setNbLits(Integer.parseInt(myMap.get("nbLits")));
 				classi.setPrix(Float.parseFloat(myMap.get("prix")));
 			}
-				
-			
-		}else {
+		} else {
 			throw new IllegalArgumentException(Console.EDIT_FAIL);
 		}
 		
