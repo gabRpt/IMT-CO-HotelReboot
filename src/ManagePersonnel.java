@@ -47,7 +47,8 @@ public class ManagePersonnel {
 		Optional<Personnel> personnel = this.getPersonnel();
 		
 		if(personnel.isPresent()) {
-			this.removePersonnelChambre(personnel.get()); //On clear les chambres actuelles
+			//On clear les chambres actuelles
+			personnel.get().getChambre().clear();
 			
 			myMap = this.manageHotel.getFieldsValues(classFields);			
 			personnel.get().setNom(myMap.get("nom"));
@@ -82,7 +83,7 @@ public class ManagePersonnel {
 		Optional<Personnel> personnel = this.getPersonnel();
 		
 		if(personnel.isPresent()) {
-			this.removePersonnelChambre(personnel.get());
+			personnel.get().getChambre().clear();
 			this.manageHotel.hotel.getPersonnel().remove(personnel.get());
 			deleted = true;
 		}
@@ -136,17 +137,5 @@ public class ManagePersonnel {
 			}
 		}
 		return Optional.empty();
-	}
-	
-	private void removePersonnelChambre(Personnel personnel) {
-		//CURRENTLY NOT WORKING
-		//Error while trying to remove Personnel from Chambre
-		/*
-		for (Chambre chambre : personnel.getChambre()) {
-			if(chambre.getPersonnel().contains(personnel)) {
-				chambre.getPersonnel().remove(personnel);
-			}
-		}
-		personnel.getChambre().clear();*/
 	}
 }
