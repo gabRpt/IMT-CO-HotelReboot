@@ -22,6 +22,7 @@ public class ManageHotel {
 	protected HotelManagmentFactory hotelFactory;
 	private ManageReservation manageReservation = new ManageReservation(this);
 	private ManageChambre manageChambre = new ManageChambre(this);
+	private ManagePersonnel managePersonnel = new ManagePersonnel(this);
 	
 	
 	public ManageHotel(Hotel hotel, HotelManagmentFactory hotelFactory) {
@@ -132,144 +133,26 @@ public class ManageHotel {
 		}
 	}
 	
-	public void personnel(char userInputSecondChar) {
-		Field[] classFields = PersonnelImpl.class.getDeclaredFields();
-		Map<String, String> myMap;
-		
+	public void personnel(char userInputSecondChar) {		
 		switch (userInputSecondChar) {
-			case '1':{
-				//TODO G�rer les exceptions
-				myMap = this.getFieldsValues(classFields);
-				System.out.println(Console.ASK_NUMCHAMBRES_PERSONNEL);
-				String userInputString = Console.recupererUneEntree();
-				Personnel newPersonnel = this.hotelFactory.createPersonnel();
-				
-				while(!userInputString.equals("0")) {
-					int numero = Integer.parseInt(userInputString);
-					for (Chambre chambre : this.hotel.getChambre()) {
-						if (chambre.getNumero() == numero) {
-							newPersonnel.getChambre().add(chambre);
-							break;
-						}
-					}
-					
-					userInputString = Console.recupererUneEntree();
-				}
-				
-				newPersonnel.setNom(myMap.get("nom"));
-				newPersonnel.setPrenom(myMap.get("prenom"));
-				
-				this.hotel.getPersonnel().add(newPersonnel);				
+			case '1':
+				managePersonnel.createPersonnel();
 				break;
-			}
 				
-			case '2':{
-				//TODO G�rer les exceptions				
-				System.out.println(Console.ASK_NOM_PERSONNEL);
-				String nom = Console.recupererUneEntree();
-				
-				System.out.println(Console.ASK_PRENOM_PERSONNEL);
-				String prenom = Console.recupererUneEntree();
-				
-				boolean edited = false;
-				
-				for (Personnel personnel : this.hotel.getPersonnel()) {
-					if (personnel.getNom().equals(nom) && personnel.getPrenom().equals(prenom)) {
-						myMap = this.getFieldsValues(classFields);						
-						personnel.setNom(myMap.get("nom"));
-						personnel.setPrenom(myMap.get("prenom"));
-						
-						System.out.println(Console.ASK_NUMCHAMBRES_PERSONNEL);
-						String userInputString = Console.recupererUneEntree();
-						while(!userInputString.equals("0")) {
-							int numero = Integer.parseInt(userInputString);
-							for (Chambre chambre : this.hotel.getChambre()) {
-								if (chambre.getNumero() == numero) {
-									personnel.getChambre().add(chambre);
-									break;
-								}
-							}
-							
-							userInputString = Console.recupererUneEntree();
-						}
-						
-						edited = true;
-						break;
-					}
-				}
-				
-				if (edited) {					
-					System.out.println(Console.EDIT_SUCCESS);
-				} else {
-					System.out.println(Console.EDIT_FAIL);
-				}
-				
+			case '2':
+				managePersonnel.updatePersonnel();
 				break;
-			}
 				
-			case '3':{
-				System.out.println(Console.ASK_NOM_PERSONNEL);
-				String nom = Console.recupererUneEntree();
-				
-				System.out.println(Console.ASK_PRENOM_PERSONNEL);
-				String prenom = Console.recupererUneEntree();
-				
-				boolean deleted = false;
-				
-				for (Personnel personnel : this.hotel.getPersonnel()) {
-					if (personnel.getNom().equals(nom) && personnel.getPrenom().equals(prenom)) {
-						for (Chambre chambre : personnel.getChambre()) {
-							chambre.getPersonnel().remove(personnel);
-						}
-						this.hotel.getPersonnel().remove(personnel);
-						deleted = true;
-						break;
-					}
-				}
-				
-				if (deleted) {					
-					System.out.println(Console.EDIT_SUCCESS);
-				} else {
-					System.out.println(Console.EDIT_FAIL);
-				}
+			case '3':
+				managePersonnel.deletePersonnel();
 				break;
-			}
 				
 			case '4':
-				System.out.println(Console.ASK_NOM_PERSONNEL);
-				String nom = Console.recupererUneEntree();
-				
-				System.out.println(Console.ASK_PRENOM_PERSONNEL);
-				String prenom = Console.recupererUneEntree();
-								
-				for (Personnel personnel : this.hotel.getPersonnel()) {
-					if (personnel.getNom().equals(nom) && personnel.getPrenom().equals(prenom)) {
-						System.out.println(
-							"nom: "+personnel.getNom()+
-							"\nprenom: "+personnel.getPrenom()
-						);
-						
-						String chambreString = "chambres: ";
-						for (Chambre chambre : personnel.getChambre()) {
-							chambreString += chambre.getNumero() + " ";
-						}
-						System.out.println(chambreString + "\n");
-						break;
-					}
-				}
+				managePersonnel.showPersonnel();
 				break;
 				
 			case '5':
-				for (Personnel personnel : this.hotel.getPersonnel()) {
-					System.out.println("nom: "+ personnel.getNom());
-					System.out.println("prenom: "+ personnel.getPrenom());
-					
-					String chambreString = "chambres: ";
-					for (Chambre chambre : personnel.getChambre()) {
-						chambreString += chambre.getNumero() + " ";
-					}
-					System.out.println(chambreString + "\n");
-				}
+				managePersonnel.showAllPersonnel();
 				break;
 	
 			default:
