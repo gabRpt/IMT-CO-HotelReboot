@@ -1,21 +1,9 @@
 import java.lang.reflect.Field;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Optional;
-import java.util.stream.Stream;
 
-import hotelManagment.Chambre;
-import hotelManagment.Classique;
-import hotelManagment.Client;
 import hotelManagment.Hotel;
 import hotelManagment.HotelManagmentFactory;
-import hotelManagment.Personnel;
-import hotelManagment.Presidentielle;
-import hotelManagment.impl.ChambreImpl;
-import hotelManagment.impl.ClientImpl;
-import hotelManagment.impl.PersonnelImpl;
-import hotelManagment.impl.PresidentielleImpl;
 
 public class ManageHotel {
 	protected Hotel hotel;
@@ -23,6 +11,7 @@ public class ManageHotel {
 	private ManageReservation manageReservation = new ManageReservation(this);
 	private ManageChambre manageChambre = new ManageChambre(this);
 	private ManagePersonnel managePersonnel = new ManagePersonnel(this);
+	private ManageClient manageClient = new ManageClient(this);
 	
 	
 	public ManageHotel(Hotel hotel, HotelManagmentFactory hotelFactory) {
@@ -160,90 +149,26 @@ public class ManageHotel {
 		}
 	}
 	
-	public void client(char userInputSecondChar) {
-		Field[] classFields = ClientImpl.class.getDeclaredFields();
-		Map<String, String> myMap;
-		
+	public void client(char userInputSecondChar) {		
 		switch (userInputSecondChar) {
 			case '1':
-				//TODO G�rer les exceptions
-				myMap = this.getFieldsValues(classFields);
-				
-				Client newClient = this.hotelFactory.createClient();
-				newClient.setId(Integer.parseInt(myMap.get("id")));
-				newClient.setNom(myMap.get("nom"));
-				newClient.setPrenom(myMap.get("prenom"));
-				this.hotel.getClient().add(newClient);
-				
+				manageClient.createClient();
 				break;
 				
-			case '2':{
-				System.out.println(Console.ASK_CLIENT_ID);
-				int idClient = Integer.parseInt(Console.recupererUneEntree());
-				
-				boolean edited = false;
-				
-				for (Client client : this.hotel.getClient()) {
-					if (client.getId() == idClient) {
-						myMap = this.getFieldsValues(classFields);						
-						client.setId(Integer.parseInt(myMap.get("id")));
-						client.setNom(myMap.get("nom"));
-						client.setPrenom(myMap.get("prenom"));
-						
-						edited = true;
-						break;
-					}
-				}
-				
-				if (edited) {					
-					System.out.println(Console.EDIT_SUCCESS);
-				} else {
-					System.out.println(Console.EDIT_FAIL);
-				}
-				
+			case '2':
+				manageClient.updateClient();
 				break;
-			}
 				
-			case '3':{
-				System.out.println(Console.ASK_CLIENT_ID);
-				int idClient = Integer.parseInt(Console.recupererUneEntree());
-				
-				boolean deleted = false;
-				
-				for (Client client : this.hotel.getClient()) {
-					if (client.getId() == idClient) {
-						this.hotel.getClient().remove(client);
-						deleted = true;
-						break;
-					}
-				}
-				
-				if (deleted) {					
-					System.out.println(Console.EDIT_SUCCESS);
-				} else {
-					System.out.println(Console.EDIT_FAIL);
-				}
+			case '3':
+				manageClient.deleteClient();
 				break;
-			}
 				
 			case '4':
-				System.out.println(Console.ASK_CLIENT_ID);
-				int idClient = Integer.parseInt(Console.recupererUneEntree());
-								
-				for (Client client : this.hotel.getClient()) {
-					if (client.getId() == idClient) {
-						System.out.println(
-							"id: "+client.getId()+
-							"\nnom: "+client.getNom()+
-							"\nprenom"+client.getPrenom()
-						);
-						break;
-					}
-				}
+				manageClient.showClient();
 				break;
 				
 			case '5':				
-				this.hotel.getClient().stream().forEach(System.out::println);
+				manageClient.showAllClient();
 				break;
 	
 			default:
