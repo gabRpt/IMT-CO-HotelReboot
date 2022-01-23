@@ -12,7 +12,7 @@ La classe Réservation contient l'ID d'un Personnel existant et le numéro d'une
 Un Hotel a au moins deux chambres.
 
 ```
-Les fichiers modèles d'hotel sont ***raiatea.xmi*** et ***papeete.xmi***
+Les fichiers modèles d'hotel sont raiatea.xmi et papeete.xmi
 Lorsque vous lancez le programme, des choix seront affichés avec un nombre les préfixant. Entrez le nombre de votre choix et faites "entrer" pour passer à l'étape suivante.
 
 1 - charger un hotel : Charger un hotel depuis un fichier .xmi
