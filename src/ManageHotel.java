@@ -21,30 +21,15 @@ import hotelManagment.impl.PresidentielleImpl;
 import hotelManagment.impl.ReservationImpl;
 
 public class ManageHotel {
-	private Hotel hotel;
-	private HotelManagmentFactory hotelFactory;
+	protected Hotel hotel;
+	protected HotelManagmentFactory hotelFactory;
+	private ManageReservation manageReservation = new ManageReservation(this);
+	
 	
 	public ManageHotel(Hotel hotel, HotelManagmentFactory hotelFactory) {
 		// TODO Auto-generated constructor stub
 		this.hotel = hotel;
 		this.hotelFactory = hotelFactory;
-	}
-	
-	//Méthode générique, pour chaque attribut, demande la valeur à l'utilisateur
-	//Retourne un map "nomAttribut":"valeur entrée par l'user"
-	private Map<String, String> getFieldsValues(Field[] classFields) {
-		Map<String, String> myMap = new HashMap<String, String>();
-		String fieldValue = "";
-		String currentAttributeName = "";
-				
-		for (int i = 1; i < classFields.length; i+=2) {
-			currentAttributeName = classFields[i].getName();
-			System.out.println(Console.ASK_USER_FIELD_VALUE + currentAttributeName);
-			fieldValue = Console.recupererUneEntree();
-			myMap.put(currentAttributeName, fieldValue);
-		}
-		
-		return myMap;
 	}
 	
 	public boolean manageUserInput(String userInput) {
@@ -77,100 +62,44 @@ public class ManageHotel {
 		return continueHotelManagement;
 	}
 	
-	
-	public void reservation(char userInputSecondChar) {
-		Field[] classFields = ReservationImpl.class.getDeclaredFields();
-		Map<String, String> myMap;
+	//Méthode générique, pour chaque attribut, demande la valeur à l'utilisateur
+	//Retourne un map "nomAttribut":"valeur entrée par l'user"
+	protected Map<String, String> getFieldsValues(Field[] classFields) {
+		Map<String, String> myMap = new HashMap<String, String>();
+		String fieldValue = "";
+		String currentAttributeName = "";
+				
+		for (int i = 1; i < classFields.length; i+=2) {
+			currentAttributeName = classFields[i].getName();
+			System.out.println(Console.ASK_USER_FIELD_VALUE + currentAttributeName);
+			fieldValue = Console.recupererUneEntree();
+			myMap.put(currentAttributeName, fieldValue);
+		}
 		
+		return myMap;
+	}
+	
+	
+	public void reservation(char userInputSecondChar) {		
 		switch (userInputSecondChar) {
 			case '1':
-				//TODO Gï¿½rer les exceptions
-				myMap = this.getFieldsValues(classFields);
-				
-				Reservation newReservation = this.hotelFactory.createReservation();
-				newReservation.setIdClient(Integer.parseInt(myMap.get("idClient")));
-				newReservation.setNumChambre(Integer.parseInt(myMap.get("numChambre")));
-				newReservation.setDate(null); //TODO Date
-				this.hotel.getReserveration().add(newReservation);
-				
+				manageReservation.createReservation();				
 				break;
 				
-			case '2':{
-				System.out.println(Console.ASK_CLIENT_ID);
-				int idClient = Integer.parseInt(Console.recupererUneEntree());
-				
-				System.out.println(Console.ASK_NUMCHAMBRE);
-				int numChambre = Integer.parseInt(Console.recupererUneEntree());
-				
-				boolean edited = false;
-				
-				for (Reservation reservation : this.hotel.getReserveration()) {
-					if (reservation.getIdClient() == idClient && reservation.getNumChambre() == numChambre) {
-						myMap = this.getFieldsValues(classFields);						
-						reservation.setIdClient(Integer.parseInt(myMap.get("idClient")));
-						reservation.setNumChambre(Integer.parseInt(myMap.get("numChambre")));
-						reservation.setDate(null); //TODO Date
-						
-						edited = true;
-						break;
-					}
-				}
-				
-				if (edited) {					
-					System.out.println(Console.EDIT_SUCCESS);
-				} else {
-					System.out.println(Console.EDIT_FAIL);
-				}
-				
+			case '2':
+				manageReservation.updateReservation();				
 				break;
-			}
 				
-			case '3':{
-				System.out.println(Console.ASK_CLIENT_ID);
-				int idClient = Integer.parseInt(Console.recupererUneEntree());
-				
-				System.out.println(Console.ASK_NUMCHAMBRE);
-				int numChambre = Integer.parseInt(Console.recupererUneEntree());
-				
-				boolean deleted = false;
-								
-				for (Reservation reservation : this.hotel.getReserveration()) {
-					if (reservation.getIdClient() == idClient && reservation.getNumChambre() == numChambre) {
-						this.hotel.getReserveration().remove(reservation);
-						deleted = true;
-						break;
-					}
-				}
-				
-				if (deleted) {					
-					System.out.println(Console.EDIT_SUCCESS);
-				} else {
-					System.out.println(Console.EDIT_FAIL);
-				}
+			case '3':
+				manageReservation.deleteReservation();
 				break;
-			}
 				
 			case '4':
-				System.out.println(Console.ASK_CLIENT_ID);
-				int idClient = Integer.parseInt(Console.recupererUneEntree());
-				
-				System.out.println(Console.ASK_NUMCHAMBRE);
-				int numChambre = Integer.parseInt(Console.recupererUneEntree());
-				
-				for (Reservation reservation : this.hotel.getReserveration()) {
-					if (reservation.getIdClient() == idClient && reservation.getNumChambre() == numChambre) {
-						System.out.println(
-							"idClient: "+reservation.getIdClient()+
-							"\nnumChambre: "+reservation.getNumChambre()+
-							"\ndate: "+reservation.getDate()
-						);
-						break;
-					}
-				}
+				manageReservation.showReservation();
 				break;
 				
 			case '5':				
-				this.hotel.getReserveration().stream().forEach(System.out::println);
+				manageReservation.showAllReservation();
 				break;
 	
 			default:
