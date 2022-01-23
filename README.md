@@ -50,5 +50,4 @@ Lorsque vous lancez le programme, des choix seront affichés avec un nombre les 
 
 # Known Issues
 - Lors de l'ajout d'une réservation, les dates ne sont pas prises en compte et mises à null
-- Lors de l'update/delete d'un Personnel, les chambres ne sont pas mises à jour
 - Les cas d'erreurs ne sont pas pris en compte, le programme fonctionne en partant du principe que l'utilisateur rentre les bonnes valeurs
