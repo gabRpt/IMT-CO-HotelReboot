@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="ASCII"?>
+<hotelManagment:Hotel xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:hotelManagment="http://www.example.org/hotelManagment" nom="Raiatea Hotel" adresse="3 avenue des cocotiers" categorie="Luxe" chiffreAffaire="500000">
+  <reserveration idClient="1" numChambre="201"/>
+  <reserveration idClient="3" numChambre="202"/>
+  <chambre xsi:type="hotelManagment:Classique" numero="101" nbLits="2" prix="50.0" personnel="//@personnel.1"/>
+  <chambre xsi:type="hotelManagment:Classique" numero="102" nbLits="3" prix="60.0"/>
+  <chambre xsi:type="hotelManagment:Classique" numero="104" nbLits="2" prix="50.0"/>
+  <chambre xsi:type="hotelManagment:Presidentielle" numero="201" nbLits="6" prix="300.0" personnel="//@personnel.0" nbTV="3" nbSdB="2" balcon="true"/>
+  <chambre xsi:type="hotelManagment:Presidentielle" numero="202" nbLits="4" prix="150.0" personnel="//@personnel.1" nbTV="2" nbSdB="2"/>
+  <client id="1" nom="Snow" prenom="John"/>
+  <client id="2" nom="Jobs" prenom="Steve"/>
+  <client id="3" nom="Ross" prenom="Bob"/>
+  <personnel nom="Raapoto" prenom="Gabin" chambre="//@chambre.3"/>
+  <personnel nom="Maystre" prenom="Antonin" chambre="//@chambre.0 //@chambre.4"/>
+</hotelManagment:Hotel>
