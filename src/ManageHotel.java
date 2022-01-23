@@ -5,7 +5,6 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.stream.Stream;
 
-
 import hotelManagment.Chambre;
 import hotelManagment.Classique;
 import hotelManagment.Client;
@@ -13,17 +12,16 @@ import hotelManagment.Hotel;
 import hotelManagment.HotelManagmentFactory;
 import hotelManagment.Personnel;
 import hotelManagment.Presidentielle;
-import hotelManagment.Reservation;
 import hotelManagment.impl.ChambreImpl;
 import hotelManagment.impl.ClientImpl;
 import hotelManagment.impl.PersonnelImpl;
 import hotelManagment.impl.PresidentielleImpl;
-import hotelManagment.impl.ReservationImpl;
 
 public class ManageHotel {
 	protected Hotel hotel;
 	protected HotelManagmentFactory hotelFactory;
 	private ManageReservation manageReservation = new ManageReservation(this);
+	private ManageChambre manageChambre = new ManageChambre(this);
 	
 	
 	public ManageHotel(Hotel hotel, HotelManagmentFactory hotelFactory) {
@@ -110,166 +108,28 @@ public class ManageHotel {
 	public void chambre(char userInputSecondChar) {
 		switch (userInputSecondChar) {
 			case '1':
-				creationChambre();
+				manageChambre.createChambre();
 				break;
 				
 			case '2':
-				modificationChambre();
+				manageChambre.updateChambre();
 				break;
 				
 			case '3':
-				supprimerChambre();
+				manageChambre.deleteChambre();
 				break;
 				
 			case '4':
-				afficherChambre();
+				manageChambre.showChambre();
 				break;
 				
 			case '5':
-				this.hotel.getChambre().stream().forEach(System.out::println);
+				manageChambre.showAllChambre();
 				break;
 	
 			default:
 				break;
 		}
-	}
-	
-	private void afficherChambre() {
-		System.out.println(Console.ASK_NUMCHAMBRE);
-		int num = Integer.parseInt(Console.recupererUneEntree());
-		
-		for (Chambre chambre : this.hotel.getChambre()) {
-			if (chambre.getNumero() == num) {
-				System.out.println(
-					"NumChmabre: "+chambre.getNumero()+
-					"\nnombre de lits: "+chambre.getNbLits()+
-					"\nprix: "+chambre.getPrix()
-				);
-				if(chambre instanceof Presidentielle) {
-					Presidentielle chambrep = (Presidentielle) chambre;
-					System.out.println(
-							"Salle de bain: "+chambrep.getNbSdB()+
-							"\nnombre de TV: "+chambrep.getNbTV()
-					);
-				}
-				break;
-			}
-		}
-	}
-
-	private void supprimerChambre() {
-		System.out.println(Console.ASK_NUMCHAMBRE);
-		int numero = Integer.parseInt(Console.recupererUneEntree());
-		
-		boolean deleted = false;
-		
-		for (Chambre chambre : this.hotel.getChambre()) {
-			if (chambre.getNumero() == numero) {
-				this.hotel.getChambre().remove(chambre);
-				deleted = true;
-				break;
-			}
-		}
-		
-		if (deleted) {					
-			System.out.println(Console.EDIT_SUCCESS);
-		} else {
-			System.out.println(Console.EDIT_FAIL);
-		}
-		
-	}
-
-	private void modificationChambre() {
-		System.out.println(Console.ASK_NUMCHAMBRE);
-		int numero = Integer.parseInt(Console.recupererUneEntree());
-		
-		System.out.println(Console.ASK_CHAMBRE_PRESIDENTIELLE);
-		String estPres = Console.recupererUneEntree();
-		
-		Optional<Chambre> chambreAmodifier = this.hotel.getChambre().stream().filter( chambre -> chambre.getNumero() == numero).findFirst();
-		Map<String, String> myMap; 
-		
-		Field[] fieldChambre = ChambreImpl.class.getDeclaredFields();
-		fieldChambre = Arrays.copyOf(fieldChambre, fieldChambre.length-1); //On enleve le dernier elem
-		Field[] fieldPresidentielle = PresidentielleImpl.class.getDeclaredFields();
-		
-		Field[] chambreXPresidentielle = Stream.concat(Arrays.stream(fieldChambre), Arrays.stream(fieldPresidentielle)).toArray(Field[]::new);
-		
-		if(!chambreAmodifier.isEmpty()) {
-			if(estPres.equals("y")) {
-				Presidentielle pre = (Presidentielle) chambreAmodifier.get();
-				myMap = this.getFieldsValues(chambreXPresidentielle);
-				pre.setNumero(Integer.parseInt(myMap.get("numero")));
-				pre.setNbLits(Integer.parseInt(myMap.get("nbLits")));
-				pre.setPrix(Float.parseFloat(myMap.get("prix")));
-				pre.setBalcon(Boolean.parseBoolean(myMap.get("balcon")));
-				pre.setNbTV(Integer.parseInt(myMap.get("nbTV")));
-				pre.setNbSdB(Integer.parseInt(myMap.get("nbSdB")));
-			}else {
-				Classique classi = (Classique) chambreAmodifier.get();
-				myMap = this.getFieldsValues(fieldChambre);
-				classi.setNumero(Integer.parseInt(myMap.get("numero")));
-				classi.setNbLits(Integer.parseInt(myMap.get("nbLits")));
-				classi.setPrix(Float.parseFloat(myMap.get("prix")));
-			}
-		} else {
-			throw new IllegalArgumentException(Console.EDIT_FAIL);
-		}
-		
-		System.out.println(Console.EDIT_SUCCESS);
-	}
-
-	public void creationChambre() {
-
-		System.out.println(Console.ASK_NUMCHAMBRE);
-		int numero = Integer.parseInt(Console.recupererUneEntree());
-		
-		System.out.println(Console.ASK_NB_LITS);
-		int nbrLits = Integer.parseInt(Console.recupererUneEntree());
-		
-		System.out.println(Console.ASK_PRIX_CHAMBRE);
-		Float prix = Float.parseFloat(Console.recupererUneEntree());
-		
-		Console.afficherChoixClassiqueOuPresidentielle();
-		String entree = Console.recupererUneEntree();
-		if(entree.equals("1")) {
-			
-			Classique chambre = hotelFactory.createClassique();
-			chambre.setNumero(numero);
-			chambre.setNbLits(nbrLits);
-			chambre.setPrix(prix);
-			this.hotel.getChambre().add(chambre);
-			
-		}else if (entree.equals("2")) {
-			
-			Presidentielle chambre = hotelFactory.createPresidentielle();
-			chambre.setNumero(numero);
-			chambre.setNbLits(nbrLits);
-			chambre.setPrix(prix);
-			
-			System.out.println(Console.ASK_NB_TV);
-			int nbTv = Integer.parseInt(Console.recupererUneEntree());
-			
-			System.out.println(Console.ASK_NB_SDB);
-			int nbSdb = Integer.parseInt(Console.recupererUneEntree());
-			
-			System.out.println(Console.ASK_BALCON);
-			boolean balcon = Boolean.parseBoolean(Console.recupererUneEntree());
-			
-			chambre.setNbTV(nbTv);
-			chambre.setNbSdB(nbSdb);
-			chambre.setBalcon(balcon);
-			this.hotel.getChambre().add(chambre);
-			
-		}else {
-			throw new IllegalArgumentException(Console.EDIT_FAIL);
-		}
-		
-		
-		
-		System.out.println(Console.EDIT_SUCCESS);
-		
-		
 	}
 	
 	public void personnel(char userInputSecondChar) {
