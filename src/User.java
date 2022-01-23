@@ -34,7 +34,7 @@ public class User {
 		            break;
 		        }
 		        default:
-		            throw new IllegalArgumentException("Erreur dans le choix !");
+		            throw new IllegalArgumentException(Console.USER_CHOIX_ERROR);
 	       }
 		}
 		
@@ -45,7 +45,7 @@ public class User {
 
 		this.myHotel = this.myHotelFactory.createHotel();
 		
-		Console.afficherChoixNomHotel();
+		System.out.println(Console.ASK_HOTEL_NAME);
 		this.myHotel.setNom(Console.recupererUneEntree());
 		System.out.println("Adresse: ");
 		this.myHotel.setAdresse(Console.recupererUneEntree());
@@ -58,16 +58,15 @@ public class User {
 	}
 
 	void chargerHotel() {
-		Console.afficherChoixCheminAcces();
-		
+		System.out.println(Console.ASK_CHEMIN_ACCESS);
 		try {
 			this.modelFilename = Console.recupererUneEntree();
 			Resource rr = this.myResourceTools.getResource(this.modelFilename);
 			this.myHotel = (Hotel)(rr.getContents().get(0));
 			managerHotel();
 		}catch (Exception e) {
-			throw new IllegalArgumentException("Erreur dans le choix !");
-		}		
+			throw new IllegalArgumentException(Console.USER_CHOIX_ERROR);
+		}
 	}
 
 	void managerHotel() {

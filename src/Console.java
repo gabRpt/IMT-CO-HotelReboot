@@ -4,6 +4,7 @@ import hotelManagment.Hotel;
 
 public class Console {
 	
+	//MANAGE HOTEL
 	public static final String EDIT_SUCCESS = "Édité avec success";
 	public static final String EDIT_FAIL = "Problème rencontré lors de l'édition";
 	public static final String ASK_USER_FIELD_VALUE = "Entrez la valeur pour le champ suivant: ";
@@ -19,6 +20,11 @@ public class Console {
 	public static final String ASK_NOM_PERSONNEL = "Entrez le nom du personnel";
 	public static final String ASK_PRENOM_PERSONNEL = "Entrez le prenom du personnel";
 	
+	//USER
+	public static final String ASK_HOTEL_NAME = "Quel sera le nom de votre Hotel ?";
+	public static final String ASK_CHEMIN_ACCESS = "Quel sera le chemin d'accès du modele ?";
+	public static final String USER_CHOIX_ERROR = "Erreur dans le choix !";
+	
 	public static void afficherChoixCreationOuImportation() {
 		System.out.println("Bienvenue dans le système de gestion d'hotel");
 		System.out.println("1 - charger un hotel :");
@@ -26,17 +32,9 @@ public class Console {
 		System.out.println("3 - Quitter");
 	}
 	
-	public static void afficherChoixNomHotel() {
-		System.out.println("Quel sera le nom de votre Hotel ?");
-	}
-	
 	public static void afficherChoixCreationCheminAcces() {
 		System.out.println("Entrez le nom du fichier dans le format suivant:  exemple.xmi");
 		System.out.println("Attention, si le fichier existe déjà il sera écrasé");
-	}
-	
-	public static void afficherChoixCheminAcces() {
-		System.out.println("Quel sera le chemin d'accès du modele ?");
 	}
 	
 	public static void afficherChoixClassiqueOuPresidentielle() {
