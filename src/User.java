@@ -34,7 +34,8 @@ public class User {
 		            break;
 		        }
 		        default:
-		            throw new IllegalArgumentException(Console.USER_CHOIX_ERROR);
+		            System.out.println(Console.USER_CHOIX_ERROR);
+		            continue;
 	       }
 		}
 		
